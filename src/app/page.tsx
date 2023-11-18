@@ -1,113 +1,173 @@
-import Image from 'next/image'
-
+"use client";
+import Close from "@/components/Close";
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
+import { useState } from "react";
+import Modal from "react-modal";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 export default function Home() {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  Modal.setAppElement("#app");
+  const [count, setCount] = useState(0);
+  const [inputs, setInputs] = useState({
+    id: "",
+    pwd: "",
+  });
+
+  const { id, pwd } = inputs;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const resetInput = () => {
+    setInputs({
+      id: "",
+      pwd: "",
+    });
+  };
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function getInfo() {
+    if (id === "success" && pwd === "121") {
+      alert("님 천재임?");
+    } else {
+      alert("잘못된 접근입니다.");
+      setCount(count + 1);
+      if (count === 5) {
+        alert("힌트 : 요즘 투자에, 저축에, 대출받느라 바빠... 총 얼마지 그럼?");
+      }
+      if (count === 10) {
+        alert("힌트 : MIRROR");
+      }
+      if (count === 15) {
+        alert("더 이상의 힌트는 없습니다.");
+        setCount(0);
+      }
+      resetInput();
+    }
+  }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <main className="min-h-screen">
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div className="">
+          <h2 className="text-center text-2xl font-bold mb-6">Authorization</h2>
+          <button className="absolute top-3 right-3" onClick={closeModal}>
+            <Close />
+          </button>
+          <form className="flex flex-col gap-3">
+            <input
+              type="text"
+              name="id"
+              value={id}
+              onChange={onChange}
+              className="border-gray-300 bg-white border-2 rounded-md transition-all duration-200 text-gray-900 text-sm focus:ring-lightGreen focus:border-lightGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-darkGreen dark:focus:border-darkGreen"
+              placeholder="아이디를 입력해주세요."
+              required
             />
-          </a>
+            <input
+              type="password"
+              name="pwd"
+              value={pwd}
+              onChange={onChange}
+              className="border-gray-300 bg-white border-2 rounded-md transition-all duration-200 text-gray-900 text-sm focus:ring-lightGreen focus:border-lightGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-darkGreen dark:focus:border-darkGreen"
+              placeholder="비밀번호를 입력해주세요."
+              required
+            />
+            <button type="button" className="w-full" onClick={getInfo}>
+              Submit
+            </button>
+          </form>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      </Modal>
+      <section className="h-screen relative">
+        <Image src={"/img/toss_bg.png"} fill alt="BG-IMAGE" objectFit="cover" />
+        <div className="absolute top-4 right-5">
+          <button
+            onClick={openModal}
+            className="rounded-md px-3 py-1 text-white hover:border hover:text-black"
+          >
+            LOGIN
+          </button>
+        </div>
+      </section>
+      <section className="py-52 w-full flex items-center justify-center break-keep">
+        <h1 className="text-3xl text-center mb-14 leading-relaxed font-bold">
+          내 모든 금융 내역을 한눈에 조회하고 한 곳에서 관리하세요.
+          <br />
+          이제껏 경험 못 했던 쉽고 편리한 금융 서비스,
+          <br />
+          거울에 비춰보듯 섬세하게 살펴보세요.
+        </h1>
+      </section>
+      <section className="relative w-full overflow-hidden">
+        <div className="max-w-6xl w-full h-full m-auto pt-[250px]">
+          <div className="w-[92%] max-w-[calc(100% - 48px)] h-full my-0 mx-auto">
+            <div className="relative h-[1272px]">
+              <div className="relative z-10">
+                <h1 className="text-2xl font-bold text-[#3182f6] mb-8">
+                  홈 · 소비
+                </h1>
+                <h2 className="text-5xl font-normal text-[#191f28] leading-normal">
+                  내 돈 관리,
+                  <br />
+                  <span className="font-bold">대출</span>부터{" "}
+                  <span className="font-bold">투자</span>까지
+                  <br /> 똑똑하게
+                </h2>
+              </div>
+              <div className="m-0 p-0 border-0">
+                <div className="w-[600px] h-[936px] absolute top-0 right-[-104px]">
+                  <img
+                    src="https://static.toss.im/assets/homepage/newtossim/section1_1_home_01.png"
+                    className="absolute top-[100px] left-[130px] w-[57%] h-auto"
+                  />
+                  <img
+                    src="https://static.toss.im/screens/iPhone12_Clay_Shadow.png"
+                    className="relative w-full h-full"
+                  />
+                </div>
+                <div className="w-[600px] h-[936px] absolute bottom-0 left-[-104px]">
+                  <img
+                    src="https://static.toss.im/assets/homepage/newtossim/section1_1_home_02.png"
+                    className="absolute top-[100px] left-[130px] w-[57%] h-auto"
+                  />
+                  <img
+                    src="https://static.toss.im/screens/iPhone12_Clay_Shadow.png"
+                    className="relative w-full h-full"
+                  />
+                </div>
+              </div>
+              <p className="text-2xl font-semibold absolute right-[30px] bottom-[166px]"></p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-  )
+  );
 }

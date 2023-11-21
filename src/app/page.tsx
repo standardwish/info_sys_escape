@@ -118,7 +118,7 @@ export default function Home() {
       </section>
       <section className="py-52 w-full flex items-center justify-center break-keep">
         <h1 className="text-3xl text-center mb-14 leading-relaxed font-bold">
-          내 모든 금융 내역을 한눈에 조회하고 한 곳에서 관리하세요.
+          내 금융 내역을 모두 더하고 한 곳에서 관리하세요.
           <br />
           이제껏 경험 못 했던 쉽고 편리한 금융 서비스,
           <br />

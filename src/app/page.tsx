@@ -3,6 +3,7 @@ import Close from "@/components/Close";
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Modal from "react-modal";
 const customStyles = {
@@ -16,6 +17,7 @@ const customStyles = {
   },
 };
 export default function Home() {
+  const router = useRouter();
   const [modalIsOpen, setIsOpen] = useState(false);
   Modal.setAppElement("#app");
   const [count, setCount] = useState(0);
@@ -49,8 +51,8 @@ export default function Home() {
   }
 
   function getInfo() {
-    if (id === "success" && pwd === "121") {
-      alert("님 천재임?");
+    if (id === "success") {
+      router.push("/qwer1234", { scroll: false });
     } else {
       alert("잘못된 접근입니다.");
       setCount(count + 1);
@@ -88,15 +90,6 @@ export default function Home() {
               onChange={onChange}
               className="border-gray-300 bg-white border-2 rounded-md transition-all duration-200 text-gray-900 text-sm focus:ring-lightGreen focus:border-lightGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-darkGreen dark:focus:border-darkGreen"
               placeholder="아이디를 입력해주세요."
-              required
-            />
-            <input
-              type="password"
-              name="pwd"
-              value={pwd}
-              onChange={onChange}
-              className="border-gray-300 bg-white border-2 rounded-md transition-all duration-200 text-gray-900 text-sm focus:ring-lightGreen focus:border-lightGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-darkGreen dark:focus:border-darkGreen"
-              placeholder="비밀번호를 입력해주세요."
               required
             />
             <button type="button" className="w-full" onClick={getInfo}>

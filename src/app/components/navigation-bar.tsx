@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import GetScrollY from "../api/getScrollY";
 import {
@@ -14,12 +13,10 @@ import {
 
 export default function NavigationBar() {
   const scrollY = GetScrollY();
-  const [isHovered, setIsHovered] = useState(false);
-  console.log(isHovered);
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 bg-transparent bg-opacity-75 backdrop-blur z-10 bg-white ${
+      className={`fixed left-0 right-0 top-0 z-10 bg-white ${
         scrollY !== 0 && "border-b border-gray-200"
       }`}
     >
@@ -32,10 +29,10 @@ export default function NavigationBar() {
           <NavTab href="/profile">토스인증서</NavTab>
           <NavTab href="/profile">채용</NavTab>
           <div className="flex flex-row items-center pl-2">
-            <NavTab href="/profile">TOP</NavTab>
+            <NavTab href="/profile">KOR</NavTab>
             <span className="text-gray-300">||</span>
             <NavTab href="/profile" disabled>
-              RIGHT
+              ENG
             </NavTab>
           </div>
         </ul>
@@ -60,18 +57,6 @@ export default function NavigationBar() {
           </Sheet>
         </ul>
       </nav>
-      <button
-        className={`absolute px-3 py-2 top-0 right-10 h-[60px]`}
-        onClick={() => setIsHovered(true)}
-      ></button>
-      <button
-        className={`absolute px-3 py-2 top-0 right-10 h-[60px] ${
-          isHovered ? "block" : "hidden"
-        }`}
-        onClick={() => alert("HI")}
-      >
-        LOGIN
-      </button>
     </header>
   );
 }

@@ -1,6 +1,41 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { ChangeEvent, useState } from "react";
+import MyDialog from "./ui/dialog";
+import MyToast from "./ui/toast";
 export default function Home() {
+  const [val, setVal] = useState("");
+  const [toast, setToast] = useState({
+    state: false,
+    isAnswer: false,
+  });
+
+  const handleToastOpenChange = (open: boolean) => {
+    setToast((prevState) => ({
+      ...prevState,
+      state: open,
+    }));
+  };
+
+  function handleInput(e: ChangeEvent<HTMLInputElement>) {
+    setVal(e.target.value);
+  }
+  function handleSubmit() {
+    console.log(process.env.NEXT_PUBLIC_ANSWER);
+
+    if (val === process.env.NEXT_PUBLIC_ANSWER) {
+      setToast({
+        state: true,
+        isAnswer: true,
+      });
+    } else {
+      setToast({
+        state: true,
+        isAnswer: false,
+      });
+    }
+  }
   return (
     <main className="min-h-fit">
       <section className="h-screen">
@@ -18,8 +53,11 @@ export default function Home() {
               소트에서 쉽고 간편하게
             </h1>
             <div className="flex flex-row justify-center items-start">
-              <StoreButton type="App Store" />
-              <StoreButton type="Google Play" />
+              <MyDialog
+                val={val}
+                onChange={handleInput}
+                onSubmit={handleSubmit}
+              />
             </div>
           </div>
         </div>
@@ -76,6 +114,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <MyToast
+        open={toast.state}
+        setOpen={handleToastOpenChange}
+        isAnswer={toast.isAnswer}
+      />
     </main>
   );
 }

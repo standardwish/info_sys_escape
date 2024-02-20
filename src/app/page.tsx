@@ -1,115 +1,30 @@
-"use client";
-import Close from "@/components/Close";
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Modal from "react-modal";
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import Link from "next/link";
 export default function Home() {
-  const router = useRouter();
-  const [modalIsOpen, setIsOpen] = useState(false);
-  Modal.setAppElement("#app");
-  const [count, setCount] = useState(0);
-  const [inputs, setInputs] = useState({
-    id: "",
-    pwd: "",
-  });
-
-  const { id, pwd } = inputs;
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const resetInput = () => {
-    setInputs({
-      id: "",
-      pwd: "",
-    });
-  };
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function getInfo() {
-    if (id === "success") {
-      router.push("/qwer1234", { scroll: false });
-    } else {
-      alert("잘못된 접근입니다.");
-      setCount(count + 1);
-      if (count === 5) {
-        alert("힌트 : 요즘 투자에, 저축에, 대출받느라 바빠... 총 얼마지 그럼?");
-      }
-      if (count === 10) {
-        alert("힌트 : MIRROR");
-      }
-      if (count === 15) {
-        alert("더 이상의 힌트는 없습니다.");
-        setCount(0);
-      }
-      resetInput();
-    }
-  }
   return (
-    <main className="min-h-screen">
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <div className="">
-          <h2 className="text-center text-2xl font-bold mb-6">Authorization</h2>
-          <button className="absolute top-3 right-3" onClick={closeModal}>
-            <Close />
-          </button>
-          <form className="flex flex-col gap-3">
-            <input
-              type="text"
-              name="id"
-              value={id}
-              onChange={onChange}
-              className="border-gray-300 bg-white border-2 rounded-md transition-all duration-200 text-gray-900 text-sm focus:ring-lightGreen focus:border-lightGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-darkGreen dark:focus:border-darkGreen"
-              placeholder="아이디를 입력해주세요."
-              required
-            />
-            <button type="button" className="w-full" onClick={getInfo}>
-              Submit
-            </button>
-          </form>
-        </div>
-      </Modal>
-      <section className="h-screen relative">
-        <Image src={"/img/toss_bg.png"} fill alt="BG-IMAGE" objectFit="cover" />
-        <div className="absolute top-4 right-5">
-          <button
-            onClick={openModal}
-            className="rounded-md px-3 py-1 text-white hover:border hover:text-black"
-          >
-            LOGIN
-          </button>
+    <main className="min-h-fit">
+      <section className="h-screen">
+        <Image
+          src={"https://static.toss.im/assets/homepage/newtossim/new_main.png"}
+          fill
+          className="object-cover w-full h-full"
+          alt="메인 페이지"
+        />
+        <div className="main-gradient"></div>
+        <div className="flex items-center justify-between absolute top-0 left-0 w-full h-full flex-col animate-fade-in">
+          <div className="mt-[170px] items-center flex justify-start flex-col">
+            <h1 className="w-full text-center mb-[50px] text-[60px] leading-tight after: font-bold text-black break-keep whitespace-pre-wrap">
+              금융의 모든 것<br />
+              소트에서 쉽고 간편하게
+            </h1>
+            <div className="flex flex-row justify-center items-start">
+              <StoreButton type="App Store" />
+              <StoreButton type="Google Play" />
+            </div>
+          </div>
         </div>
       </section>
-      <section className="py-52 w-full flex items-center justify-center break-keep">
+      <section className="py-52 w-full flex items-center justify-center break-keep h-screen bg-[#f9fafb]">
         <h1 className="text-3xl text-center mb-14 leading-relaxed font-bold">
           내 금융 내역을 모두 더하고 한 곳에서 관리하세요.
           <br />
@@ -162,5 +77,31 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+function StoreButton({ type }: { type: "App Store" | "Google Play" }) {
+  return (
+    <Link
+      className="appearance-none pl-[14px] pr-[16px] mr-1 bg-[rgba(0,12,30,0.8)] text-white text-[17px] relative inline-flex justify-center items-center m-0 text-center align-middle whitespace-nowrap rounded-[7px] py-[11px] px-[22px]"
+      href={`${
+        type === "App Store"
+          ? "https://apps.apple.com/kr/app/%ED%86%A0%EC%8A%A4/id839333328"
+          : `https://play.google.com/store/apps/details?id=viva.republica.toss`
+      }`}
+    >
+      <Image
+        src={`${
+          type === "App Store"
+            ? "https://static.toss.im/png-icons/timeline/applekorea.png"
+            : "https://static.toss.im/png-icons/timeline/googleplay.png"
+        }`}
+        width={24}
+        height={24}
+        className="mr-[6px]"
+        alt={`${type}`}
+      />
+      {type}
+    </Link>
   );
 }

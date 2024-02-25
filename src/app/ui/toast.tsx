@@ -15,12 +15,8 @@ const MyToast = ({
     <Toast.Provider swipeDirection="right">
       <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen}>
         <Toast.Title className="ToastTitle">
-          {isAnswer ? "정답! 다음 단계로 이동해주세요." : "오답"}
+          {isAnswer ? "열심히 찾다보니 목이 마르네..." : "오답"}
         </Toast.Title>
-        <Toast.Description asChild>
-          나이스 투 미트 유
-          {/* {isAnswer ? "다음 단계로 이동해주세요." : "조금 더 고민해주세요"} */}
-        </Toast.Description>
         <Toast.Action
           className="ToastAction"
           asChild
